@@ -30,13 +30,18 @@
          
           <div v-show="loginWayIndex===0" class="account-login-content">
             <p class="phone1">
-              <input placeholder="手机号" type="text" />
+              <input v-model='phone' autofocus placeholder="手机号" type="text" />
             </p>
             <p class="password1">
-              <input placeholder="密码" type="password" />
+              <input v-model='password' placeholder="密码" type="password" />
             </p>
             <p class="forget1">忘记密码</p>
-            <p @click="loginSuccess" class="login-btn1">登陆了！去首页</p>
+            <p @click="loginSuccess" class="login-btn1"> 
+              <router-link to=''>
+                 登陆了！去首页
+              </router-link>
+              
+               </p>
             <p class="no-account1">
               还没有账号？请
               <a @click="register">注册</a>
@@ -82,6 +87,8 @@ export default {
     return {
         flag:false,
         flag1:true,
+        phone:'',
+        password:'',
         loginWay:['账号登录','微信登录'],
         loginWayIndex:0,
       currentIndex: 1,
@@ -108,9 +115,19 @@ export default {
     addStyle(index){
        this.loginWayIndex = index;
     },
+    
     loginSuccess(){
-      this.$router.push({path:'/econtent'})
+       this.axios.get('/api/getList').then(res => {
+         if(this.phone === res.data.phone&&this.password === res.data.password){
+           alert('登录成功')
+           this.$router.push({path:'/econtent'})
+         }
+        else{
+          alert('账号或密码错误')
+        }
+       })
     },
+   
     register(){
       this.flag = true;
       this.flag1 = false;

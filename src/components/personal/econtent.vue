@@ -48,6 +48,9 @@
       <div class="content-right fl">
         <div class="content-right-top clearfix">
           <div class="course fl">
+            <router-link class='course-detail' to='/course'>
+            </router-link>
+
             <p class="mycourse">我上传的课程</p>
             <p class="course-num">
               <span>3</span>个
@@ -57,6 +60,9 @@
             </p>
           </div>
           <div class="qa fl">
+            <router-link class='course-detail' to='/course'>
+            </router-link>
+
             <p class="mycourse">我上传的课程</p>
             <p class="course-num">
               <span>3</span>个
@@ -240,6 +246,7 @@ export default {
         margin-right: -20px;
         .course,
         .qa {
+          position: relative;
           box-sizing: border-box;
           padding: 30px 0 0 40px;
           width: 390px;
@@ -248,6 +255,13 @@ export default {
           background: #fff url(../../assets/images/bg.png) no-repeat;
           background-position: bottom right;
           background-size: 50%;
+          .course-detail{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+          }
           .mycourse {
             font-size: 16px;
           }

@@ -4,7 +4,7 @@
       <div class="allipt">
         <p class="clearfix editp">
           <label for="name">姓名</label>
-          <input v-model="arrIpt.username" :style="{border:edit?'1px solid #ccc':'none'}" v-bind:readonly="flag" type="text" id="name" name="username" />
+          <input @blur="$v.arrIpt.username.$touch()" v-model="arrIpt.username" :style="{border:edit?'1px solid #ccc':'none'}" v-bind:readonly="flag" type="text" id="name" name="username" />
           <span @click="editipt" v-show="flag" class="edit fr">
             <i class="iconfont icon-bianji"></i> 编辑
           </span>
@@ -16,8 +16,8 @@
         <p>
           <label for="gender">性别</label>
           <select  v-model="arrIpt.gender" :style="{border:edit?'1px solid #ccc':'none'}" :disabled="flag" name="gender" id="gender">
-            <option value>男</option>
-            <option value>女</option>
+            <option >男</option>
+            <option >女</option>
           </select>
         </p>
         <p>
@@ -26,11 +26,12 @@
           <span :class="{'active':edit}"  class="status">
             <i class="iconfont icon-duihao"></i> 已验证
           </span>
-          <span @click="getauthcode" :class="{'active':edit}" v-show="edit" class="authcode">{{authcode}}</span>
+          <span  @click="getauthcode" :class="{'active':edit}" v-show="edit" class="authcode">{{authcode}}</span>
         </p>
         <p>
           <label for="email">邮箱</label>
-          <input v-model="arrIpt.email" :style="{border:edit?'1px solid #ccc':'none'}" :readonly="flag" type="text" id="email" name="email" />
+          <input @blur='yzemail' v-model="arrIpt.email" :style="{border:edit?'1px solid #ccc':'none'}" :readonly="flag" type="text" id="email" name="email" />
+          
         </p>
         <p>
           <label for="idcard">身份证</label>
@@ -60,6 +61,7 @@ export default {
   name: "myinfor",
   data() {
     return {
+      code:true,
       timer:null,
       flag: true,
       edit: false,
@@ -67,7 +69,7 @@ export default {
       arrIpt:{
         username:'张帅成',
         birth:'',
-        gender:'',
+        gender:'男',
         phone:'',
         idcarrd:'',
         email:'',
@@ -76,7 +78,22 @@ export default {
       }
     };
   },
+  validations(){
+    return{
+      arrIpt:{
+        username:{
+          required:this.$rules.required,
+        },
+        phone:{
+          required:this.$rules.required,
+        }
+      }
+    }
+  },
   methods: {
+    touchArrIpt(){
+      this.$v.arrIpt.$touch();
+    },
     editipt() {
       this.edit = true;
       this.flag = false;
@@ -111,10 +128,14 @@ export default {
             this.authcode = '重新获取验证码'
           }
         }
-       
       },1000)
-        
-     
+   
+    },
+    yzemail(){
+      let reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+      if(!reg.test(this.arrIpt.email)){
+        alert('请输入正确的邮箱')
+      }
     },
     confirm(){
       this.flag = true;

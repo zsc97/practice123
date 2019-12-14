@@ -48,6 +48,7 @@
 </template>
 
 <script>
+
 export default {
   name: "identify",
   data() {
@@ -56,8 +57,12 @@ export default {
       newData:'',
       flag:true,
       btn:false,
+      formResponse:{
+        name:'',
+      }
     };
   },
+ 
   methods: {
     edit(){
       this.flag = false;
